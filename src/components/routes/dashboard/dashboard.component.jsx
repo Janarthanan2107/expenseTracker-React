@@ -13,24 +13,21 @@ const Transaction = () => {
     toast.error("Successfully deleted!");
   };
 
-  let amount;
-  let expenseAmount;
-  let totalExpenseAmount;
-  
-  for (let balance of items) {
-    console.log(balance.amount);
-    if (balance.typeOfTrans === "Income") {
-      amount = balance.amount;
-    }
+  const balance = () => {
+    let data = items
+      .filter((item) => item.amount > 0)
+      .reduce((total, item) => total + item.amount, 0);
+    console.log(data);
+    return Number(data);
+  };
 
-    if (balance.typeOfTrans === "Expense") {
-      expenseAmount = amount - balance.amount;
-    }
-
-    if (balance.typeOfTrans === "Expense") {
-      totalExpenseAmount = balance.amount;
-    }
-  }
+  const totalExpense = () => {
+    let data = items
+      .filter((item) => item.amount < 0)
+      .reduce((total, item) => total + item.amount, 0);
+    console.log(data);
+    return data;
+  };
 
   // Load data from localStorage when the component initializes
   useEffect(() => {
@@ -50,18 +47,21 @@ const Transaction = () => {
           </h1>
           <div className="grid grid-cols-2 gap-1 divide-x">
             <div className="font-semibold text-green-500 p-2">
-              Balance : {expenseAmount}
+              Balance : {balance()}
             </div>
             <div className="font-semibold text-red-500 p-2">
-              Expense : {totalExpenseAmount}
+              Expense : {totalExpense()}
             </div>
           </div>
         </div>
         <div className="flex flex-wrap gap-2">
           {items.length > 0 ? (
-            items.map((item) => {
+            items.map((item, index) => {
               return (
-                <div className="flex justify-between items-center shadow-md rounded-md p-3 mt-3 w-[280px]">
+                <div
+                  className="flex justify-between items-center shadow-md rounded-md p-3 mt-3 w-[280px]"
+                  key={index}
+                >
                   <div className="flex gap-1 items-start flex-col">
                     <span className="font-semibold mx-3">
                       {item.transaction}
