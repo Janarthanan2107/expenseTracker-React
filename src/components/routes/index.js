@@ -1,4 +1,7 @@
-import Transaction from "./transaction/transaction.component";
+import Transaction from "./dashboard/dashboard.component";
 import Tracker from "./tracker/tracker.component";
 
-export { Transaction, Tracker }
+// not found
+import NotFound from "./errorPage/notFound.component";
+
+export { Transaction, Tracker, NotFound }
